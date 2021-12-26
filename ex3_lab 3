@@ -1,0 +1,28 @@
+import os
+from zipfile import ZipFile
+zf = ZipFile('main.zip','r')
+zf.extractall('extract_main')
+zf.close()
+file_zip = open('file.txt','w')
+arr = []
+for folder,subfolders, files in os.walk('/home/le/extract_main/main'):
+    for file in files:
+        if file.endswith('.py'):
+            arr.append(folder)
+            break
+
+arr.sort()
+file_zip.write('\n'.join(arr))
+file_zip.close()
+
+flag = True
+while flag:
+    new_file = input('enter file to write lines : ')
+    try:
+        ans = open(new_file,'w')
+        ans.write('\n'.join(arr))
+        ans.close()
+        flag =False
+        print('success')
+    except FileNotFoundError:
+        print('Directory does not exist, try again')
